@@ -72,12 +72,7 @@ async function upsertEntry(list, companyId, stage, icp) {
   const entry_values = {};
   if (stage) entry_values.campagna_1 = [{ status: stage }];
   if (icp) entry_values.icp = [{ option: icp }];
-  const q = await attio("POST", `/lists/${list}/entries/query`, { filter: { parent_record_id: companyId }, limit: 1 });
-  if (q.data && q.data.length) {
-    await attio("PATCH", `/lists/${list}/entries/${q.data[0].id.entry_id}`, { data: { entry_values } });
-  } else {
-    await attio("POST", `/lists/${list}/entries`, { data: { parent_object: "companies", parent_record_id: companyId, entry_values } });
-  }
+  await attio("POST", `/lists/${list}/entries`, { data: { parent_object: "companies", parent_record_id: companyId, entry_values } });
 }
 
 export default async function handler(req, res) {
