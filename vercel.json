@@ -3,6 +3,7 @@
   "trailingSlash": false,
   "functions": {
     "api/data.js": { "maxDuration": 30 },
-    "api/lemlist.js": { "maxDuration": 60 }
+    "api/lemlist.js": { "maxDuration": 60 },
+    "api/sync-lemlist.js": { "maxDuration": 60 }
   }
 }
