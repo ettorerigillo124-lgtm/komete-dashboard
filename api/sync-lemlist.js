@@ -1,6 +1,4 @@
-// api/sync-lemlist.js — backfill: porta i lead delle campagne Lemlist nelle liste Attio.
-// Chiamalo così (una campagna per volta): /api/sync-lemlist?secret=komsync&c=nautico
-//   c = nautico | icp1 | icp2 | icp3   —   offset per batch successivi
+// api/sync-lemlist.js — backfill lead Lemlist -> liste Attio (Companies, match per dominio)
 const SECRET = "komsync";
 const LEMLIST_KEY = process.env.LEMLIST_API_KEY;
 const ATTIO_KEY = process.env.ATTIO_API_KEY;
@@ -11,7 +9,7 @@ const JOBS = {
   icp2:    { campaign: "cam_exsEpZNi6xjj4AxWP", list: "campagna_lemlist_1",   icp: "ICP 2" },
   icp3:    { campaign: "cam_6XjC5Ysctd7SMvRcg", list: "campagna_lemlist_1",   icp: "ICP 3" },
 };
-const BATCH = 25;
+const BATCH = 12;
 
 const lemAuth = () => "Basic " + Buffer.from(":" + LEMLIST_KEY).toString("base64");
 async function lemlistCSV(path) {
@@ -28,7 +26,6 @@ async function attio(method, path, body) {
   if (!r.ok) throw new Error(`Attio ${method} ${path} → ${r.status}: ${await r.text()}`);
   return r.json();
 }
-
 function parseCSV(text) {
   const rows = []; let field = "", row = [], inQ = false;
   for (let i = 0; i < text.length; i++) {
@@ -52,23 +49,18 @@ function mapStage(lastState, status) {
   if (ls.startsWith("linkedin") || ["contacted","hooked","attracted","warmed"].includes(ls)) return "Contattati";
   return null;
 }
+function domainFromEmail(email) { const m = (email || "").split("@")[1]; return m ? m.trim().toLowerCase() : null; }
 
-async function upsertPerson(email, first, last, job) {
-  const values = { email_addresses: [email], name: [{ first_name: first || "", last_name: last || "", full_name: (`${first || ""} ${last || ""}`).trim() || email }] };
-  if (job) values.job_title = [{ value: job }];
-  const res = await attio("PUT", "/objects/people/records?matching_attribute=email_addresses", { data: { values } });
-  return res.data.id.record_id;
-}
-async function findOrCreateCompany(name) {
-  const q = await attio("POST", "/objects/companies/records/query", { filter: { name }, limit: 1 });
-  if (q.data && q.data.length) return q.data[0].id.record_id;
+async function assertCompany(name, domain) {
+  if (domain) {
+    const res = await attio("PUT", "/objects/companies/records?matching_attribute=domains",
+      { data: { values: { domains: [domain], name: [{ value: name }] } } });
+    return res.data.id.record_id;
+  }
   const c = await attio("POST", "/objects/companies/records", { data: { values: { name: [{ value: name }] } } });
   return c.data.id.record_id;
 }
-async function linkPersonCompany(personId, companyId) {
-  await attio("PATCH", `/objects/people/records/${personId}`, { data: { values: { company: [{ target_object: "companies", target_record_id: companyId }] } } });
-}
-async function upsertEntry(list, companyId, stage, icp) {
+async function createEntry(list, companyId, stage, icp) {
   const entry_values = {};
   if (stage) entry_values.campagna_1 = [{ status: stage }];
   if (icp) entry_values.icp = [{ option: icp }];
@@ -81,14 +73,14 @@ export default async function handler(req, res) {
     if (secret !== SECRET) return res.status(403).json({ error: "secret errato" });
     const job = JOBS[c];
     if (!job) return res.status(400).json({ error: "usa ?c=nautico|icp1|icp2|icp3" });
-    if (!LEMLIST_KEY || !ATTIO_KEY) return res.status(500).json({ error: "manca LEMLIST_API_KEY o ATTIO_API_KEY su Vercel" });
+    if (!LEMLIST_KEY || !ATTIO_KEY) return res.status(500).json({ error: "manca LEMLIST_API_KEY o ATTIO_API_KEY" });
 
     const csv = await lemlistCSV(`/campaigns/${job.campaign}/export/leads?state=all`);
     const rows = parseCSV(csv);
     const header = rows[0].map((h) => h.trim().toLowerCase());
-    const col = (name) => header.indexOf(name);
+    const col = (n) => header.indexOf(n);
     const iEmail = col("email"), iFirst = col("firstname"), iLast = col("lastname"),
-          iComp = col("companyname"), iLast2 = col("laststate"), iStat = col("status"), iJob = col("jobtitle");
+          iComp = col("companyname"), iLast2 = col("laststate"), iStat = col("status");
 
     const start = parseInt(offset || "0", 10);
     const leads = rows.slice(1).filter((r) => r[iEmail]);
@@ -98,19 +90,17 @@ export default async function handler(req, res) {
     for (const r of slice) {
       const email = (r[iEmail] || "").trim();
       try {
-        const personId = await upsertPerson(email, r[iFirst], r[iLast], iJob >= 0 ? r[iJob] : "");
-        const compName = (r[iComp] || "").trim() || `${r[iFirst] || ""} ${r[iLast] || ""}`.trim() || email;
-        const companyId = await findOrCreateCompany(compName);
-        await linkPersonCompany(personId, companyId);
+        const domain = domainFromEmail(email);
+        const compName = (r[iComp] || "").trim() || domain || `${r[iFirst]||""} ${r[iLast]||""}`.trim() || email;
+        const companyId = await assertCompany(compName, domain);
         const stage = mapStage(iLast2 >= 0 ? r[iLast2] : "", iStat >= 0 ? r[iStat] : "");
-        await upsertEntry(job.list, companyId, stage, job.icp);
+        await createEntry(job.list, companyId, stage, job.icp);
         out.push({ email, stage, ok: true });
       } catch (e) { out.push({ email, ok: false, error: String(e.message || e) }); }
     }
     const done = start + slice.length;
     return res.status(200).json({
-      campaign: c, processed: slice.length, from: start, done,
-      total: leads.length,
+      campaign: c, processed: slice.length, from: start, done, total: leads.length,
       nextUrl: done < leads.length ? `/api/sync-lemlist?secret=${SECRET}&c=${c}&offset=${done}` : null,
       results: out,
     });
