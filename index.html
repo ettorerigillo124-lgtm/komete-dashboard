@@ -8,31 +8,24 @@
 :root { color-scheme: light; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { min-height: 100%; background: #1F1656; }
-body {
-  color: #FFFFFF;
-  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  padding: 48px 64px 32px;
-  min-height: 100vh;
-  font-feature-settings: "tnum" 1;
-  -webkit-font-smoothing: antialiased;
-}
+body { color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+padding: 48px 64px 32px; min-height: 100vh; font-feature-settings: "tnum" 1; -webkit-font-smoothing: antialiased; }
 .header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; gap: 24px; }
 .header-left { flex: 1; min-width: 0; }
 .logo { width: 38px; height: 38px; border-radius: 6px; background: #FFFFFF; color: #1F1656;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 12px; letter-spacing: -0.02em; flex-shrink: 0; }
+display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; letter-spacing: -0.02em; flex-shrink: 0; }
 .tag { color: #FF7A6A; font-size: 10px; letter-spacing: 0.22em; font-weight: 600; margin-bottom: 16px; text-transform: uppercase; }
 h1 { font-size: 46px; font-weight: 400; line-height: 1.05; margin-bottom: 10px; letter-spacing: -0.018em; color: #FFFFFF; }
 .subtitle { color: #A29CD6; font-size: 14px; font-weight: 400; }
 .tabs { display: flex; gap: 28px; margin: 24px 0 36px; border-bottom: 1px solid #382B78; align-items: flex-end; }
 .tab { background: transparent; border: none; color: #A29CD6; padding: 10px 0 12px; font-size: 13px; font-weight: 500;
-  cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; margin-bottom: -1px;
-  transition: color 0.15s, border-color 0.15s; letter-spacing: 0.01em; }
+cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; margin-bottom: -1px;
+transition: color 0.15s, border-color 0.15s; letter-spacing: 0.01em; }
 .tab:hover { color: #FFFFFF; }
 .tab.active { color: #FFFFFF; border-bottom-color: #FF7A6A; font-weight: 600; }
 .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 44px; }
 .kpi { background: rgba(58, 44, 122, 0.32); border: 1px solid #382B78; border-radius: 14px; padding: 24px 26px;
-  min-height: 120px; display: flex; flex-direction: column; justify-content: center; }
+min-height: 120px; display: flex; flex-direction: column; justify-content: center; }
 .kpi.hl { border: 2px solid #FF7A6A; background: rgba(85, 34, 66, 0.28); }
 .kpi .n { font-size: 50px; font-weight: 300; line-height: 1; margin-bottom: 8px; letter-spacing: -0.028em; color: #FFFFFF; }
 .kpi.hl .n { color: #FF7A6A; font-weight: 400; }
@@ -53,238 +46,218 @@ h1 { font-size: 46px; font-weight: 400; line-height: 1.05; margin-bottom: 10px; 
 .insight b { color: #FFFFFF; font-weight: 600; }
 .loading { padding: 60px 20px; text-align: center; color: #A29CD6; font-size: 14px; }
 .error { padding: 30px; background: rgba(255, 122, 106, 0.06); border: 1px solid rgba(255, 122, 106, 0.25);
-  border-radius: 12px; color: #FF9A80; font-size: 14px; line-height: 1.5; }
+border-radius: 12px; color: #FF9A80; font-size: 14px; line-height: 1.5; }
 .footer { margin-top: 48px; padding-top: 18px; border-top: 1px solid #382B78; display: flex; justify-content: space-between;
-  color: #7A72A8; font-size: 11px; flex-wrap: wrap; gap: 8px; }
-@media (max-width: 900px) {
-  body { padding: 28px 22px; } h1 { font-size: 32px; }
-  .kpis { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .grid { grid-template-columns: 1fr; gap: 40px; } .kpi .n { font-size: 38px; } .tabs { gap: 20px; }
-}
+color: #7A72A8; font-size: 11px; flex-wrap: wrap; gap: 8px; }
+@media (max-width: 900px) { body { padding: 28px 22px; } h1 { font-size: 32px; }
+.kpis { grid-template-columns: repeat(2, 1fr); gap: 12px; } .grid { grid-template-columns: 1fr; gap: 40px; } .kpi .n { font-size: 38px; } .tabs { gap: 20px; } }
 @media (max-width: 480px) { .kpis { grid-template-columns: 1fr; } .tabs { gap: 16px; overflow-x: auto; } }
 </style>
 </head>
 <body>
-
 <div class="header-row">
-  <div class="header-left">
-    <div class="tag">SINTESI</div>
-    <h1>Dashboard generale</h1>
-    <div class="subtitle" id="subtitle">Caricamento…</div>
-  </div>
-  <div class="logo" aria-label="HuG">HuG</div>
+<div class="header-left">
+<div class="tag">SINTESI</div>
+<h1>Dashboard generale</h1>
+<div class="subtitle" id="subtitle">Caricamento…</div>
 </div>
-
+<div class="logo" aria-label="HuG">HuG</div>
+</div>
 <div class="tabs" id="tabs">
-  <button class="tab active" data-view="all">Tutte le liste</button>
-  <button class="tab" data-view="riatt">Riattivazioni</button>
-  <button class="tab" data-view="fiere">Fiere</button>
+<button class="tab active" data-view="all">Tutte le liste</button>
+<button class="tab" data-view="riatt">Riattivazioni</button>
+<button class="tab" data-view="fiere">Fiere</button>
+<button class="tab" data-view="lemlist">Lemlist</button>
 </div>
-
 <div id="main">
-  <div class="loading">Caricamento dati da Attio…</div>
+<div class="loading">Caricamento dati da Attio…</div>
 </div>
-
 <div class="footer">
-  <span>Komete · Dashboard Liste (Riattivazioni + Outbound Fiere) · dati live via Attio API</span>
-  <span id="ts"></span>
+<span>Komete · Dashboard Liste · Attio + Lemlist</span>
+<span id="ts"></span>
 </div>
-
 <script>
-const STAGE_COLORS = {
-  'Vinto':   '#EBE1CE',
-  'Attivo':  '#A392E2',
-  'Parking': '#6B5AB8',
-  'Perso':   '#4B3E96',
-};
-const STAGE_MAP = {
-  'Vinto':                'Vinto',
-  'Email personalizzata': 'Attivo',
-  'Cold call sequence':   'Attivo',
-  'Sequenza email':       'Attivo',
-  'Nurturing':            'Parking',
-  'Da contattare':        'Parking',
-  'Perso':                'Perso',
-};
+const STAGE_COLORS = { 'Vinto':'#EBE1CE','Attivo':'#A392E2','Parking':'#6B5AB8','Perso':'#4B3E96' };
+const STAGE_MAP = { 'Vinto':'Vinto','Email personalizzata':'Attivo','Cold call sequence':'Attivo','Sequenza email':'Attivo','Nurturing':'Parking','Da contattare':'Parking','Perso':'Perso' };
 const MONTH_ORDER = ["Maggio '26","Giugno '26","Luglio '26","Agosto '26","Settembre '26","Non assegnato"];
-
 let ALL_DATA = { riatt: [], fiere: [] };
+let LEMLIST_DATA = null;
 
 async function loadAll() {
-  document.getElementById('main').innerHTML = '<div class="loading">Caricamento dati da Attio…</div>';
-  const res = await fetch('/api/data', { cache: 'no-store' });
-  if (!res.ok) {
-    const t = await res.text();
-    throw new Error(`API /api/data → ${res.status}: ${t}`);
-  }
-  const data = await res.json();
-  if (data.error) throw new Error(data.error);
-  ALL_DATA = { riatt: data.riatt || [], fiere: data.fiere || [] };
-  render();
+document.getElementById('main').innerHTML = '<div class="loading">Caricamento dati da Attio…</div>';
+const res = await fetch('/api/data', { cache: 'no-store' });
+if (!res.ok) { const t = await res.text(); throw new Error(`API /api/data → ${res.status}: ${t}`); }
+const data = await res.json();
+if (data.error) throw new Error(data.error);
+ALL_DATA = { riatt: data.riatt || [], fiere: data.fiere || [] };
+render();
 }
 
-function currentView() {
-  const el = document.querySelector('.tab.active');
-  return el ? el.dataset.view : 'all';
+async function loadLemlist() {
+document.getElementById('main').innerHTML = '<div class="loading">Caricamento dati da Lemlist…</div>';
+const res = await fetch('/api/lemlist', { cache: 'no-store' });
+if (!res.ok) { const t = await res.text(); throw new Error(`API /api/lemlist → ${res.status}: ${t}`); }
+const data = await res.json();
+if (data.error) throw new Error(data.error);
+LEMLIST_DATA = data;
+render();
 }
+
+function currentView() { const el = document.querySelector('.tab.active'); return el ? el.dataset.view : 'all'; }
 
 function render() {
-  const view = currentView();
-  let subsets = [];
-  if (view === 'all') {
-    subsets = [
-      { name: 'Riattivazioni', entries: ALL_DATA.riatt },
-      { name: 'Outbound Fiere', entries: ALL_DATA.fiere },
-    ];
-  } else if (view === 'riatt') {
-    const groups = {};
-    for (const e of ALL_DATA.riatt) {
-      const k = e.fiera || 'Non assegnato';
-      (groups[k] = groups[k] || []).push(e);
-    }
-    subsets = MONTH_ORDER.filter(k => groups[k]).map(k => ({ name: k, entries: groups[k] }));
-    Object.keys(groups).filter(k => !MONTH_ORDER.includes(k)).forEach(k => {
-      subsets.push({ name: k, entries: groups[k] });
-    });
-  } else if (view === 'fiere') {
-    const groups = {};
-    for (const e of ALL_DATA.fiere) {
-      const k = e.fiera || 'Non assegnato';
-      (groups[k] = groups[k] || []).push(e);
-    }
-    subsets = Object.entries(groups)
-      .sort((a,b) => b[1].length - a[1].length)
-      .map(([k, entries]) => ({ name: k, entries }));
-  }
+const view = currentView();
+if (view === 'lemlist') { renderLemlist(); return; }
+let subsets = [];
+if (view === 'all') {
+subsets = [ { name: 'Riattivazioni', entries: ALL_DATA.riatt }, { name: 'Outbound Fiere', entries: ALL_DATA.fiere } ];
+} else if (view === 'riatt') {
+const groups = {};
+for (const e of ALL_DATA.riatt) { const k = e.fiera || 'Non assegnato'; (groups[k] = groups[k] || []).push(e); }
+subsets = MONTH_ORDER.filter(k => groups[k]).map(k => ({ name: k, entries: groups[k] }));
+Object.keys(groups).filter(k => !MONTH_ORDER.includes(k)).forEach(k => { subsets.push({ name: k, entries: groups[k] }); });
+} else if (view === 'fiere') {
+const groups = {};
+for (const e of ALL_DATA.fiere) { const k = e.fiera || 'Non assegnato'; (groups[k] = groups[k] || []).push(e); }
+subsets = Object.entries(groups).sort((a,b) => b[1].length - a[1].length).map(([k, entries]) => ({ name: k, entries }));
+}
+const allEntries = subsets.flatMap(s => s.entries);
+const total = allEntries.length;
+const counts = { Vinto: 0, Attivo: 0, Parking: 0, Perso: 0 };
+for (const e of allEntries) counts[STAGE_MAP[e.stage] || 'Parking']++;
+const pct = k => total ? Math.round((counts[k] / total) * 100) : 0;
+const now = new Date(); const p2 = n => String(n).padStart(2,'0');
+const dd = p2(now.getDate()), mm = p2(now.getMonth()+1), yy = now.getFullYear(), hh = p2(now.getHours()), mi = p2(now.getMinutes());
+document.getElementById('subtitle').textContent = `${subsets.length} ${subsets.length === 1 ? 'gruppo' : 'gruppi'} · ${total} aziende · aggiornato ${dd}/${mm}/${yy} ${hh}:${mi}`;
+document.getElementById('ts').textContent = `Ultimo refresh: ${hh}:${mi}`;
+const kpiHtml = `<div class="kpis">
+<div class="kpi"><div class="n">${total}</div><div class="lbl">Aziende totali</div></div>
+<div class="kpi hl"><div class="n">${pct('Vinto')}%</div><div class="lbl">Vinto (${counts.Vinto})</div></div>
+<div class="kpi"><div class="n">${pct('Parking')}%</div><div class="lbl">Nurturing / Backlog (${counts.Parking})</div></div>
+<div class="kpi"><div class="n">${pct('Perso')}%</div><div class="lbl">Perso (${counts.Perso})</div></div>
+</div>`;
+const sortedSubsets = subsets.slice().sort((a, b) => {
+const wr = (s) => s.entries.length ? (s.entries.filter(e => STAGE_MAP[e.stage] === 'Vinto').length + s.entries.filter(e => STAGE_MAP[e.stage] === 'Attivo').length) / s.entries.length : 0;
+return wr(b) - wr(a);
+});
+const bars = sortedSubsets.map(sub => {
+const t = sub.entries.length; const c = { Vinto: 0, Attivo: 0, Parking: 0, Perso: 0 };
+for (const e of sub.entries) c[STAGE_MAP[e.stage] || 'Parking']++;
+const p = k => t ? (c[k] / t) * 100 : 0; const activeSum = Math.round(p('Vinto') + p('Attivo'));
+return `<div class="bar-row"><div class="bar-label"><span class="name">${escapeHtml(sub.name)}</span>
+<span class="pct">${activeSum}% attivo · ${t} aziende</span></div>
+<div class="bar-track">
+<div class="bar-seg" style="width:${p('Vinto')}%; background:${STAGE_COLORS.Vinto}"></div>
+<div class="bar-seg" style="width:${p('Attivo')}%; background:${STAGE_COLORS.Attivo}"></div>
+<div class="bar-seg" style="width:${p('Parking')}%; background:${STAGE_COLORS.Parking}"></div>
+<div class="bar-seg" style="width:${p('Perso')}%; background:${STAGE_COLORS.Perso}"></div>
+</div></div>`;
+}).join('');
+const insights = generateInsights(view, subsets, allEntries);
+document.getElementById('main').innerHTML = `${kpiHtml}<div class="grid">
+<div><div class="section-tag">Mix stage per ${view === 'riatt' ? 'mese' : view === 'fiere' ? 'fiera' : 'lista'}</div>
+${bars || '<div class="loading">Nessun dato per questa vista.</div>'}
+<div class="legend">
+<div class="legend-item"><span class="legend-dot" style="background:${STAGE_COLORS.Vinto}"></span>Vinto</div>
+<div class="legend-item"><span class="legend-dot" style="background:${STAGE_COLORS.Attivo}"></span>Attivo</div>
+<div class="legend-item"><span class="legend-dot" style="background:${STAGE_COLORS.Parking}"></span>Nurturing / Da contattare</div>
+<div class="legend-item"><span class="legend-dot" style="background:${STAGE_COLORS.Perso}"></span>Perso</div>
+</div></div>
+<div><div class="section-tag">Cosa funziona, cosa no</div>${insights.map(t => `<div class="insight">${t}</div>`).join('')}</div>
+</div>`;
+}
 
-  const allEntries = subsets.flatMap(s => s.entries);
-  const total = allEntries.length;
-  const counts = { Vinto: 0, Attivo: 0, Parking: 0, Perso: 0 };
-  for (const e of allEntries) counts[STAGE_MAP[e.stage] || 'Parking']++;
-  const pct = k => total ? Math.round((counts[k] / total) * 100) : 0;
-
-  const now = new Date();
-  const p2 = n => String(n).padStart(2,'0');
-  const dd = p2(now.getDate()), mm = p2(now.getMonth()+1), yy = now.getFullYear();
-  const hh = p2(now.getHours()), mi = p2(now.getMinutes());
-  document.getElementById('subtitle').textContent =
-    `${subsets.length} ${subsets.length === 1 ? 'gruppo' : 'gruppi'} · ${total} aziende · aggiornato ${dd}/${mm}/${yy} ${hh}:${mi}`;
-  document.getElementById('ts').textContent = `Ultimo refresh: ${hh}:${mi}`;
-
-  const kpiHtml = `
-    <div class="kpis">
-      <div class="kpi"><div class="n">${total}</div><div class="lbl">Aziende totali</div></div>
-      <div class="kpi hl"><div class="n">${pct('Vinto')}%</div><div class="lbl">Vinto (${counts.Vinto})</div></div>
-      <div class="kpi"><div class="n">${pct('Parking')}%</div><div class="lbl">Nurturing / Backlog (${counts.Parking})</div></div>
-      <div class="kpi"><div class="n">${pct('Perso')}%</div><div class="lbl">Perso (${counts.Perso})</div></div>
-    </div>
-  `;
-
-  const sortedSubsets = subsets.slice().sort((a, b) => {
-    const wr = (s) => s.entries.length ? (s.entries.filter(e => STAGE_MAP[e.stage] === 'Vinto').length + s.entries.filter(e => STAGE_MAP[e.stage] === 'Attivo').length) / s.entries.length : 0;
-    return wr(b) - wr(a);
-  });
-
-  const bars = sortedSubsets.map(sub => {
-    const t = sub.entries.length;
-    const c = { Vinto: 0, Attivo: 0, Parking: 0, Perso: 0 };
-    for (const e of sub.entries) c[STAGE_MAP[e.stage] || 'Parking']++;
-    const p = k => t ? (c[k] / t) * 100 : 0;
-    const activeSum = Math.round(p('Vinto') + p('Attivo'));
-    return `
-      <div class="bar-row">
-        <div class="bar-label">
-          <span class="name">${escapeHtml(sub.name)}</span>
-          <span class="pct">${activeSum}% attivo · ${t} aziende</span>
-        </div>
-        <div class="bar-track">
-          <div class="bar-seg" style="width:${p('Vinto')}%; background:${STAGE_COLORS.Vinto}" title="Vinto: ${c.Vinto}"></div>
-          <div class="bar-seg" style="width:${p('Attivo')}%; background:${STAGE_COLORS.Attivo}" title="Attivo: ${c.Attivo}"></div>
-          <div class="bar-seg" style="width:${p('Parking')}%; background:${STAGE_COLORS.Parking}" title="Parking: ${c.Parking}"></div>
-          <div class="bar-seg" style="width:${p('Perso')}%; background:${STAGE_COLORS.Perso}" title="Perso: ${c.Perso}"></div>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  const insights = generateInsights(view, subsets, allEntries);
-
-  document.getElementById('main').innerHTML = `
-    ${kpiHtml}
-    <div class="grid">
-      <div>
-        <div class="section-tag">Mix stage per ${view === 'riatt' ? 'mese' : view === 'fiere' ? 'fiera' : 'lista'}</div>
-        ${bars || '<div class="loading">Nessun dato per questa vista.</div>'}
-        <div class="legend">
-          <div class="legend-item"><span class="legend-dot" style="background:${STAGE_COLORS.Vinto}"></span>Vinto</div>
-          <div class="legend-item"><span class="legend-dot" style="background:${STAGE_COLORS.Attivo}"></span>Attivo (email · cold call · sequenza)</div>
-          <div class="legend-item"><span class="legend-dot" style="background:${STAGE_COLORS.Parking}"></span>Nurturing / Da contattare</div>
-          <div class="legend-item"><span class="legend-dot" style="background:${STAGE_COLORS.Perso}"></span>Perso</div>
-        </div>
-      </div>
-      <div>
-        <div class="section-tag">Cosa funziona, cosa no</div>
-        ${insights.map(t => `<div class="insight">${t}</div>`).join('')}
-      </div>
-    </div>
-  `;
+function renderLemlist() {
+const main = document.getElementById('main');
+if (!LEMLIST_DATA) { main.innerHTML = '<div class="loading">Caricamento dati da Lemlist…</div>'; return; }
+const camps = LEMLIST_DATA.campaigns || [];
+if (!camps.length) { main.innerHTML = '<div class="loading">Nessuna campagna Lemlist.</div>'; return; }
+const agg = camps.reduce((a,c) => ({ sent:a.sent+c.sent, opened:a.opened+c.opened, replied:a.replied+c.replied, interested:a.interested+c.interested, booked:a.booked+c.meetingBooked }), { sent:0,opened:0,replied:0,interested:0,booked:0 });
+const replyRate = agg.sent ? Math.round(agg.replied/agg.sent*100) : 0;
+const kpiHtml = `<div class="kpis">
+<div class="kpi"><div class="n">${agg.sent}</div><div class="lbl">Messaggi inviati</div></div>
+<div class="kpi hl"><div class="n">${agg.replied}</div><div class="lbl">Risposte (${replyRate}%)</div></div>
+<div class="kpi"><div class="n">${agg.interested}</div><div class="lbl">Interessati</div></div>
+<div class="kpi"><div class="n">${agg.booked}</div><div class="lbl">Meeting prenotati</div></div>
+</div>`;
+const groups = {};
+for (const c of camps) (groups[c.group] = groups[c.group] || []).push(c);
+let groupsHtml = '';
+for (const [gname, list] of Object.entries(groups)) {
+const rows = list.map(c => {
+const rr = c.sent ? Math.round(c.replied/c.sent*100) : 0;
+const openW = c.sent ? (c.opened/c.sent*100) : 0;
+const repW = c.sent ? (c.replied/c.sent*100) : 0;
+return `<div class="bar-row"><div class="bar-label"><span class="name">${escapeHtml(c.name)}</span>
+<span class="pct">${c.sent} inviati · ${c.replied} risposte (${rr}%) · ${c.meetingBooked} meeting</span></div>
+<div class="bar-track">
+<div class="bar-seg" style="width:${repW}%; background:${STAGE_COLORS.Vinto}"></div>
+<div class="bar-seg" style="width:${Math.max(0,openW-repW)}%; background:${STAGE_COLORS.Attivo}"></div>
+</div></div>`;
+}).join('');
+groupsHtml += `<div class="section-tag" style="margin-top:24px">${escapeHtml(gname)}</div>${rows}`;
+}
+main.innerHTML = `${kpiHtml}<div>${groupsHtml}
+<div class="legend">
+<div class="legend-item"><span class="legend-dot" style="background:${STAGE_COLORS.Vinto}"></span>Risposte</div>
+<div class="legend-item"><span class="legend-dot" style="background:${STAGE_COLORS.Attivo}"></span>Aperture</div>
+</div></div>`;
+const now = new Date(); const p2 = n => String(n).padStart(2,'0');
+document.getElementById('subtitle').textContent = `${camps.length} campagne Lemlist · ${agg.sent} inviati · ${agg.replied} risposte`;
+document.getElementById('ts').textContent = `Ultimo refresh: ${p2(now.getHours())}:${p2(now.getMinutes())}`;
 }
 
 function generateInsights(view, subsets, allEntries) {
-  const out = [];
-  if (allEntries.length === 0) { out.push('<b>Nessun dato disponibile</b> per questa vista al momento.'); return out; }
-  const withRates = subsets.map(s => {
-    const t = s.entries.length;
-    if (t === 0) return { name: s.name, winRate: 0, lossRate: 0, activeRate: 0, backlogRate: 0, total: 0, won: 0, lost: 0, active: 0, backlog: 0 };
-    let won = 0, lost = 0, active = 0, backlog = 0;
-    for (const e of s.entries) {
-      const c = STAGE_MAP[e.stage] || 'Parking';
-      if (c === 'Vinto') won++; else if (c === 'Perso') lost++;
-      else if (c === 'Attivo') active++; else if (e.stage === 'Da contattare') backlog++;
-    }
-    return { name: s.name, winRate: won/t, lossRate: lost/t, activeRate: active/t, backlogRate: backlog/t, total: t, won, lost, active, backlog };
-  }).filter(s => s.total > 0);
-
-  if (withRates.length >= 1) {
-    const best = withRates.slice().sort((a,b) => b.winRate - a.winRate)[0];
-    if (best.won > 0) out.push(`<b>Miglior conversione:</b> ${escapeHtml(best.name)} con ${Math.round(best.winRate*100)}% di Vinto (${best.won} su ${best.total}).`);
-    const worst = withRates.slice().sort((a,b) => b.lossRate - a.lossRate)[0];
-    if (worst.lost > 0) out.push(`<b>Più perdite:</b> ${escapeHtml(worst.name)} con ${Math.round(worst.lossRate*100)}% Perso (${worst.lost} su ${worst.total}). Vale la pena capire il pattern.`);
-    const hottest = withRates.slice().sort((a,b) => b.activeRate - a.activeRate)[0];
-    if (hottest.active > 0) out.push(`<b>Pipeline più calda:</b> ${escapeHtml(hottest.name)} con ${Math.round(hottest.activeRate*100)}% in outreach attivo.`);
-    const backlog = withRates.slice().sort((a,b) => b.backlogRate - a.backlogRate)[0];
-    if (backlog.backlog > 0) out.push(`<b>Backlog più grosso:</b> ${escapeHtml(backlog.name)} con ${backlog.backlog} aziende ancora "Da contattare" (${Math.round(backlog.backlogRate*100)}% della lista).`);
-  }
-  const gest = countGestori(allEntries);
-  if (gest) out.push(`<b>Ownership complessiva:</b> ${gest}.`);
-  return out;
+const out = [];
+if (allEntries.length === 0) { out.push('<b>Nessun dato disponibile</b> per questa vista al momento.'); return out; }
+const withRates = subsets.map(s => {
+const t = s.entries.length;
+if (t === 0) return { name: s.name, winRate:0, lossRate:0, activeRate:0, backlogRate:0, total:0, won:0, lost:0, active:0, backlog:0 };
+let won=0, lost=0, active=0, backlog=0;
+for (const e of s.entries) { const c = STAGE_MAP[e.stage] || 'Parking';
+if (c === 'Vinto') won++; else if (c === 'Perso') lost++; else if (c === 'Attivo') active++; else if (e.stage === 'Da contattare') backlog++; }
+return { name: s.name, winRate: won/t, lossRate: lost/t, activeRate: active/t, backlogRate: backlog/t, total: t, won, lost, active, backlog };
+}).filter(s => s.total > 0);
+if (withRates.length >= 1) {
+const best = withRates.slice().sort((a,b) => b.winRate - a.winRate)[0];
+if (best.won > 0) out.push(`<b>Miglior conversione:</b> ${escapeHtml(best.name)} con ${Math.round(best.winRate*100)}% di Vinto (${best.won} su ${best.total}).`);
+const worst = withRates.slice().sort((a,b) => b.lossRate - a.lossRate)[0];
+if (worst.lost > 0) out.push(`<b>Più perdite:</b> ${escapeHtml(worst.name)} con ${Math.round(worst.lossRate*100)}% Perso (${worst.lost} su ${worst.total}).`);
+const hottest = withRates.slice().sort((a,b) => b.activeRate - a.activeRate)[0];
+if (hottest.active > 0) out.push(`<b>Pipeline più calda:</b> ${escapeHtml(hottest.name)} con ${Math.round(hottest.activeRate*100)}% in outreach attivo.`);
+const backlog = withRates.slice().sort((a,b) => b.backlogRate - a.backlogRate)[0];
+if (backlog.backlog > 0) out.push(`<b>Backlog più grosso:</b> ${escapeHtml(backlog.name)} con ${backlog.backlog} aziende "Da contattare".`);
 }
-
+const gest = countGestori(allEntries);
+if (gest) out.push(`<b>Ownership complessiva:</b> ${gest}.`);
+return out;
+}
 function countGestori(entries) {
-  const g = {};
-  for (const e of entries) { const k = (e.gestito_da || '—').toString(); g[k] = (g[k] || 0) + 1; }
-  const items = Object.entries(g).filter(([k]) => k !== '—').sort((a,b) => b[1]-a[1]);
-  if (items.length === 0) return '';
-  return items.slice(0, 3).map(([k,v]) => `${escapeHtml(k)} (${v})`).join(' · ');
+const g = {};
+for (const e of entries) { const k = (e.gestito_da || '—').toString(); g[k] = (g[k] || 0) + 1; }
+const items = Object.entries(g).filter(([k]) => k !== '—').sort((a,b) => b[1]-a[1]);
+if (items.length === 0) return '';
+return items.slice(0, 3).map(([k,v]) => `${escapeHtml(k)} (${v})`).join(' · ');
 }
-
-function escapeHtml(s) {
-  return (s == null ? '' : String(s)).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]);
-}
+function escapeHtml(s) { return (s == null ? '' : String(s)).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
 
 document.getElementById('tabs').addEventListener('click', e => {
-  const btn = e.target.closest('.tab'); if (!btn) return;
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active'); render();
+const btn = e.target.closest('.tab'); if (!btn) return;
+document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+btn.classList.add('active');
+if (btn.dataset.view === 'lemlist' && !LEMLIST_DATA) {
+loadLemlist().catch(err => {
+const msg = escapeHtml(err && err.message ? err.message : String(err));
+document.getElementById('main').innerHTML = `<div class="error"><b>Errore Lemlist</b><br><br>${msg}<br><br>Controlla LEMLIST_API_KEY su Vercel.</div>`;
+});
+} else { render(); }
 });
 
 loadAll().catch(err => {
-  const msg = escapeHtml(err && err.message ? err.message : String(err));
-  document.getElementById('main').innerHTML =
-    `<div class="error"><b>Errore nel caricamento dati da Attio</b><br><br>${msg}<br><br>Controlla che ATTIO_API_KEY sia configurato su Vercel e che il token abbia i permessi read sulle liste.</div>`;
+const msg = escapeHtml(err && err.message ? err.message : String(err));
+document.getElementById('main').innerHTML = `<div class="error"><b>Errore nel caricamento dati da Attio</b><br><br>${msg}</div>`;
 });
-
-setInterval(() => { loadAll().catch(() => {}); }, 5 * 60 * 1000);
+setInterval(() => { if (currentView() === 'lemlist') { loadLemlist().catch(() => {}); } else { loadAll().catch(() => {}); } }, 5 * 60 * 1000);
 </script>
 </body>
 </html>
